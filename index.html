@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>InterRenta — Vende o arrienda tu inmueble en el Oriente Antioqueño</title>
 <meta name="description" content="¿Tienes un inmueble en el Oriente Antioqueño? InterRenta lo vende o arrienda por ti. Asesoría profesional, resultados reales." />
 <meta name="robots" content="index, follow" />
@@ -23,6 +23,7 @@
     --color-primary: #00C950;
     --color-primary-hover: #00b347;
     --color-accent: #ECB337;
+    --color-accent-hover: #d6a12e;
     --color-bg: #161616;
     --color-surface: #232222;
     --color-surface-2: #2a2929;
@@ -47,11 +48,15 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { -webkit-tap-highlight-color: transparent; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
-    background: var(--color-bg);
+    background:
+      radial-gradient(ellipse 900px 520px at 50% -8%, rgba(0, 201, 80, 0.09), transparent 60%),
+      radial-gradient(ellipse 700px 420px at 100% 15%, rgba(236, 179, 55, 0.05), transparent 55%),
+      var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
     line-height: 1.5;
@@ -59,6 +64,7 @@
     display: flex;
     flex-direction: column;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   body.modal-open { overflow: hidden; }
@@ -69,6 +75,10 @@
 
   a { color: var(--color-primary); text-decoration: none; }
   a:hover { text-decoration: underline; }
+
+  ::selection { background: var(--color-primary); color: #0d1a10; }
+
+  :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 
   .container {
     width: 100%;
@@ -113,7 +123,7 @@
   .hero h1 {
     font-family: var(--font-display);
     font-weight: 300;
-    font-size: clamp(44px, 7vw, 88px);
+    font-size: clamp(36px, 8vw, 88px);
     color: var(--color-text);
     line-height: 1.08;
     max-width: 900px;
@@ -137,11 +147,27 @@
 
   .cards-grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 24px;
     max-width: 1100px;
     margin: 0 auto;
+  }
+
+  .cards-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
     align-items: stretch;
+  }
+
+  @media (max-width: 1023px) {
+    .cards-row { grid-template-columns: repeat(2, 1fr); }
+    .cards-row .card:nth-child(3) { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 767px) {
+    .cards-row { grid-template-columns: 1fr; }
+    .cards-row .card:nth-child(3) { grid-column: auto; }
   }
 
   .card {
@@ -149,7 +175,6 @@
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius);
     padding: 32px 24px;
-    flex: 1 1 280px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -158,11 +183,13 @@
     transition: var(--transition);
     opacity: 0;
     animation: slideUp 0.5s ease forwards;
+    width: 100%;
   }
 
-  .card:nth-child(1) { animation-delay: 0ms; }
-  .card:nth-child(2) { animation-delay: 120ms; }
-  .card:nth-child(3) { animation-delay: 240ms; }
+  .card-primary { animation-delay: 0ms; }
+  .cards-row .card:nth-child(1) { animation-delay: 100ms; }
+  .cards-row .card:nth-child(2) { animation-delay: 180ms; }
+  .cards-row .card:nth-child(3) { animation-delay: 260ms; }
 
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -175,41 +202,66 @@
 
   .card:hover { transform: translateY(-2px); }
 
-  .card:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
+  .card-icon-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: rgba(0, 201, 80, 0.12);
+    color: var(--color-primary);
+    flex-shrink: 0;
   }
 
   .card-primary {
     border: 1px solid var(--color-primary);
     border-radius: 20px;
-    padding: 40px 32px;
+    padding: 36px;
     box-shadow: var(--glow-green);
-    flex-grow: 1.4;
-    flex-basis: 340px;
+    flex-direction: row;
+    align-items: center;
+    gap: 28px;
+  }
+  .card-primary .card-icon-badge { width: 64px; height: 64px; }
+  .card-primary-body { flex: 1; }
+  .card-primary-body h2 { margin-bottom: 6px; }
+  .card-primary-body p { margin-bottom: 0; }
+
+  .card-cta-pill {
+    flex-shrink: 0;
+    background: var(--color-primary);
+    color: #fff !important;
+    padding: 14px 26px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+  }
+  .card-primary:hover .card-cta-pill { background: var(--color-primary-hover); }
+
+  @media (max-width: 860px) {
+    .card-primary { flex-direction: column; align-items: flex-start; text-align: left; }
+    .card-primary .card-cta-pill { width: 100%; justify-content: center; margin-top: 4px; }
   }
 
   .card-secondary {
     border: 1px solid var(--color-border);
   }
+  .card-secondary .card-icon-badge { width: 52px; height: 52px; border-radius: 14px; margin-bottom: 18px; }
   .card-secondary:hover {
     border-color: var(--color-primary);
     box-shadow: var(--glow-green);
   }
 
-  .card-tertiary:hover {
+  .card-gold .card-icon-badge { background: rgba(236, 179, 55, 0.12); color: var(--color-accent); }
+  .card-gold:hover {
     border-color: var(--color-accent);
     box-shadow: var(--glow-gold);
   }
+  .card-gold .card-cta { color: var(--color-accent); }
 
-  .card-icon {
-    color: var(--color-primary);
-    margin-bottom: 20px;
-  }
-  .card-primary .card-icon { width: 40px; height: 40px; }
-  .card-secondary .card-icon,
-  .card-tertiary .card-icon { width: 32px; height: 32px; }
-  .card-tertiary .card-icon { color: var(--color-accent); }
+  .card-primary .card-icon-badge svg { width: 30px; height: 30px; }
+  .card-secondary .card-icon-badge svg { width: 24px; height: 24px; }
 
   .card h2 {
     font-family: var(--font-display);
@@ -217,7 +269,7 @@
     font-size: 28px;
     margin-bottom: 8px;
   }
-  .card-secondary h2, .card-tertiary h2 { font-size: 22px; }
+  .card-secondary h2 { font-size: 22px; }
 
   .card p {
     font-size: 14px;
@@ -233,26 +285,13 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-  }
-  .card-primary .card-cta { color: var(--color-primary); }
-  .card-secondary .card-cta { color: var(--color-text); }
-  .card-tertiary .card-cta { color: var(--color-accent); }
-
-  @media (max-width: 1023px) {
-    .cards-grid { flex-wrap: wrap; }
-    .card { flex: 1 1 45%; }
-    .card-primary { flex: 1 1 100%; order: -1; }
-  }
-
-  @media (max-width: 767px) {
-    .cards-grid { flex-direction: column; }
-    .card { width: 100%; flex-basis: auto; }
+    color: var(--color-text);
   }
 
   @media (max-width: 479px) {
     .cards-section { padding: 32px 16px 48px; }
-    .card { padding: 28px 20px; }
-    .card-primary { padding: 32px 24px; }
+    .card { padding: 26px 20px; }
+    .card-primary { padding: 28px 22px; }
   }
 
   /* ---------- Footer ---------- */
@@ -313,8 +352,8 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border: none;
     background: var(--color-surface-2);
     color: var(--color-text-muted);
@@ -345,6 +384,25 @@
     margin-bottom: 28px;
   }
 
+  .form-section-divider {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    padding-top: 16px;
+    margin-top: 4px;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .form-note {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-top: -6px;
+  }
+
   @media (max-width: 640px) {
     .modal-overlay {
       align-items: flex-end;
@@ -355,7 +413,7 @@
       width: 100%;
       max-height: 92vh;
       border-radius: 24px 24px 0 0;
-      padding: 16px 24px 32px;
+      padding: 16px 24px max(28px, env(safe-area-inset-bottom));
       transform: translateY(100%);
     }
     .modal-overlay.is-open .modal-content {
@@ -405,11 +463,13 @@
     color: var(--color-text);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
-    padding: 12px 16px;
+    padding: 13px 16px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 16px;
     width: 100%;
+    min-height: 48px;
     transition: var(--transition);
+    caret-color: var(--color-primary);
   }
 
   select.form-input {
@@ -434,12 +494,13 @@
     border-color: var(--color-error);
   }
 
-  fieldset:disabled .form-input,
-  form.is-submitting .form-input {
-    opacity: 0.6;
-  }
-  form.is-submitting {
-    pointer-events: none;
+  .form-input:-webkit-autofill,
+  .form-input:-webkit-autofill:hover,
+  .form-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-text);
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset;
+    caret-color: var(--color-text);
+    transition: background-color 9999s ease-in-out 0s;
   }
 
   .field-error {
@@ -456,7 +517,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--color-text-muted);
-    font-size: 14px;
+    font-size: 15px;
     pointer-events: none;
   }
   .input-group input { padding-left: 30px; }
@@ -480,7 +541,7 @@
     border: none;
     background: transparent;
     color: var(--color-text-muted);
-    padding: 10px 12px;
+    padding: 12px 12px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
@@ -499,10 +560,11 @@
     gap: 10px;
   }
   .checkbox-row input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     accent-color: var(--color-primary);
     cursor: pointer;
+    flex-shrink: 0;
   }
   .checkbox-row label {
     font-size: 14px;
@@ -514,7 +576,7 @@
   .checkbox-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
   @media (max-width: 480px) {
     .checkbox-grid { grid-template-columns: 1fr; }
@@ -530,6 +592,7 @@
     font-weight: 600;
     font-size: 15px;
     width: 100%;
+    min-height: 50px;
     border: none;
     cursor: pointer;
     transition: var(--transition);
@@ -540,31 +603,6 @@
     margin-top: 4px;
   }
   .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
-  .btn-primary:disabled { cursor: not-allowed; transform: none; }
-
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.35);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: none;
-  }
-  form.is-submitting .spinner { display: inline-block; }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .form-submit-error {
-    background: rgba(255, 92, 92, 0.1);
-    border: 1px solid var(--color-error);
-    color: var(--color-error);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    font-size: 13px;
-    display: none;
-  }
-  .form-submit-error.is-visible { display: block; }
 
   /* Success panel */
   .success-panel {
@@ -604,6 +642,11 @@
     margin-bottom: 24px;
   }
 
+  .success-panel .btn-primary {
+    text-decoration: none;
+    max-width: 320px;
+  }
+
   .btn-secondary-link {
     background: transparent;
     border: 1px solid var(--color-border-light);
@@ -614,6 +657,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
+    margin-top: 12px;
   }
   .btn-secondary-link:hover { border-color: var(--color-primary); }
 
@@ -646,31 +690,47 @@
   <div class="cards-grid">
 
     <button type="button" class="card card-primary" data-modal="modal-vender">
-      <span class="card-icon">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-5.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20h3.5a1 1 0 0 0 1-1v-9"/></svg>
+      <span class="card-icon-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-5.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20h3.5a1 1 0 0 0 1-1v-9"/></svg>
       </span>
-      <h2>Quiero rentar o vender mi inmueble</h2>
-      <p>Publícalo con nosotros y llega a compradores y arrendatarios reales del Oriente Antioqueño.</p>
-      <span class="card-cta">Publicar mi inmueble →</span>
+      <span class="card-primary-body">
+        <h2>Quiero rentar o vender mi inmueble</h2>
+        <p>Publícalo con nosotros y llega a compradores y arrendatarios reales del Oriente Antioqueño.</p>
+      </span>
+      <span class="card-cta card-cta-pill">
+        Publicar mi inmueble
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
     </button>
 
-    <button type="button" class="card card-secondary" data-modal="modal-comprar">
-      <span class="card-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.7-4.7"/></svg>
-      </span>
-      <h2>Quiero comprar o arrendar</h2>
-      <p>Cuéntanos qué buscas y te ayudamos a encontrarlo.</p>
-      <span class="card-cta">Buscar inmueble →</span>
-    </button>
+    <div class="cards-row">
+      <button type="button" class="card card-secondary" data-modal="modal-comprar">
+        <span class="card-icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.7-4.7"/></svg>
+        </span>
+        <h2>Quiero comprar o arrendar</h2>
+        <p>Cuéntanos qué buscas y te ayudamos a encontrarlo.</p>
+        <span class="card-cta">Buscar inmueble →</span>
+      </button>
 
-    <button type="button" class="card card-tertiary" data-modal="modal-contacto">
-      <span class="card-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      </span>
-      <h2>Contáctame</h2>
-      <p>¿Tienes otra pregunta? Escríbenos.</p>
-      <span class="card-cta">Escribir mensaje →</span>
-    </button>
+      <button type="button" class="card card-secondary card-gold" data-modal="modal-referidos">
+        <span class="card-icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <h2>Refiere y gana</h2>
+        <p>¿Conoces a alguien que quiera comprar, vender o arrendar? Cuéntanos.</p>
+        <span class="card-cta">Referir a alguien →</span>
+      </button>
+
+      <button type="button" class="card card-secondary card-gold" data-modal="modal-contacto">
+        <span class="card-icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </span>
+        <h2>Contáctame</h2>
+        <p>¿Tienes otra pregunta? Escríbenos.</p>
+        <span class="card-cta">Escribir mensaje →</span>
+      </button>
+    </div>
 
   </div>
 </section>
@@ -688,10 +748,9 @@
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l12 12M14 2 2 14"/></svg>
     </button>
     <h3 id="modal-vender-title">Publica tu inmueble con InterRenta</h3>
-    <p class="modal-subtitle">Cuéntanos los detalles y un asesor te contactará pronto.</p>
+    <p class="modal-subtitle">Cuéntanos los detalles y te escribimos por WhatsApp.</p>
 
     <div class="form-body">
-      <div class="form-submit-error" data-submit-error>No pudimos enviar tu formulario. Por favor intenta de nuevo o escríbenos directamente.</div>
       <form id="form-vender" data-form-type="vender" novalidate>
 
         <div class="form-row">
@@ -766,7 +825,7 @@
             <label for="v-precio">Precio de venta o canon mensual <span class="required-mark">*</span></label>
             <div class="input-group">
               <span class="input-prefix">$</span>
-              <input class="form-input" type="number" min="0" step="1" id="v-precio" name="precio" required />
+              <input class="form-input" type="text" inputmode="numeric" id="v-precio" name="precio" data-money required />
             </div>
             <span class="field-error" data-error-for="precio">Ingresa un valor numérico positivo.</span>
           </div>
@@ -812,10 +871,8 @@
           <span class="char-counter"><span data-counter-current>0</span>/300</span>
         </div>
 
-        <button type="submit" class="btn-primary">
-          <span class="spinner"></span>
-          <span data-btn-label>Enviar</span>
-        </button>
+        <p class="form-note">Al enviar se abrirá WhatsApp con tu solicitud lista para confirmar.</p>
+        <button type="submit" class="btn-primary">Enviar por WhatsApp</button>
       </form>
     </div>
 
@@ -823,8 +880,9 @@
       <span class="success-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
       </span>
-      <h4>¡Recibido!</h4>
-      <p data-success-message>Gracias. El equipo de InterRenta te contactará en las próximas horas.</p>
+      <h4>¡Ya casi!</h4>
+      <p data-success-message>Abrimos WhatsApp con tu información lista. Solo confirma el envío para que el equipo de InterRenta la reciba.</p>
+      <a class="btn-primary" data-wa-link target="_blank" rel="noopener">Abrir WhatsApp</a>
       <button type="button" class="btn-secondary-link" data-close-modal>Volver al inicio</button>
     </div>
   </div>
@@ -841,7 +899,6 @@
     <p class="modal-subtitle">Te ayudamos a encontrar el inmueble ideal.</p>
 
     <div class="form-body">
-      <div class="form-submit-error" data-submit-error>No pudimos enviar tu formulario. Por favor intenta de nuevo o escríbenos directamente.</div>
       <form id="form-comprar" data-form-type="comprar" novalidate>
 
         <div class="form-row">
@@ -909,7 +966,7 @@
             <label for="c-presupuesto">Presupuesto máximo <span class="required-mark">*</span></label>
             <div class="input-group">
               <span class="input-prefix">$</span>
-              <input class="form-input" type="number" min="0" step="1" id="c-presupuesto" name="presupuesto" required />
+              <input class="form-input" type="text" inputmode="numeric" id="c-presupuesto" name="presupuesto" data-money required />
             </div>
             <span class="field-error" data-error-for="presupuesto">Ingresa un valor numérico positivo.</span>
           </div>
@@ -957,10 +1014,8 @@
           <span class="char-counter"><span data-counter-current>0</span>/300</span>
         </div>
 
-        <button type="submit" class="btn-primary">
-          <span class="spinner"></span>
-          <span data-btn-label>Enviar</span>
-        </button>
+        <p class="form-note">Al enviar se abrirá WhatsApp con tu solicitud lista para confirmar.</p>
+        <button type="submit" class="btn-primary">Enviar por WhatsApp</button>
       </form>
     </div>
 
@@ -968,14 +1023,107 @@
       <span class="success-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
       </span>
-      <h4>¡Recibido!</h4>
-      <p data-success-message>Gracias. El equipo de InterRenta te contactará en las próximas horas.</p>
+      <h4>¡Ya casi!</h4>
+      <p data-success-message>Abrimos WhatsApp con tu información lista. Solo confirma el envío para que el equipo de InterRenta la reciba.</p>
+      <a class="btn-primary" data-wa-link target="_blank" rel="noopener">Abrir WhatsApp</a>
       <button type="button" class="btn-secondary-link" data-close-modal>Volver al inicio</button>
     </div>
   </div>
 </div>
 
-<!-- ============ MODAL 3: Contacto ============ -->
+<!-- ============ MODAL 3: Referidos ============ -->
+<div class="modal-overlay" id="modal-referidos" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-referidos-title">
+    <div class="modal-drag-handle"></div>
+    <button type="button" class="modal-close" data-close-modal aria-label="Cerrar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l12 12M14 2 2 14"/></svg>
+    </button>
+    <h3 id="modal-referidos-title">Refiere y gana</h3>
+    <p class="modal-subtitle">Cuéntanos quién puede necesitar nuestros servicios.</p>
+
+    <div class="form-body">
+      <form id="form-referidos" data-form-type="referido" novalidate>
+
+        <div class="form-group">
+          <label for="r-nombre">Tu nombre completo <span class="required-mark">*</span></label>
+          <input class="form-input" type="text" id="r-nombre" name="referente_nombre" required />
+          <span class="field-error" data-error-for="referente_nombre">Ingresa tu nombre completo.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="r-telefono">Tu teléfono / WhatsApp <span class="required-mark">*</span></label>
+            <input class="form-input" type="tel" id="r-telefono" name="referente_telefono" required />
+            <span class="field-error" data-error-for="referente_telefono">Ingresa un teléfono válido (mín. 7 dígitos).</span>
+          </div>
+          <div class="form-group">
+            <label for="r-unidad">Unidad o ubicación <span class="required-mark">*</span></label>
+            <input class="form-input" type="text" id="r-unidad" name="referente_unidad" placeholder="Torre 3 Apto 502" required />
+            <span class="field-error" data-error-for="referente_unidad">Ingresa tu unidad o ubicación.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>¿Eres cliente o propietario? <span class="required-mark">*</span></label>
+          <div class="toggle-group" data-toggle-group data-toggle-name="referente_tipo">
+            <button type="button" class="toggle-option is-active" data-value="Cliente">Cliente</button>
+            <button type="button" class="toggle-option" data-value="Propietario">Propietario</button>
+          </div>
+          <input type="hidden" name="referente_tipo" value="Cliente" />
+        </div>
+
+        <p class="form-section-divider">Datos de la persona que refieres</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="r-ref-nombre">Nombre del referido <span class="required-mark">*</span></label>
+            <input class="form-input" type="text" id="r-ref-nombre" name="referido_nombre" required />
+            <span class="field-error" data-error-for="referido_nombre">Ingresa el nombre del referido.</span>
+          </div>
+          <div class="form-group">
+            <label for="r-ref-telefono">Teléfono del referido <span class="required-mark">*</span></label>
+            <input class="form-input" type="tel" id="r-ref-telefono" name="referido_telefono" required />
+            <span class="field-error" data-error-for="referido_telefono">Ingresa un teléfono válido (mín. 7 dígitos).</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="r-interes">¿Qué está buscando? <span class="required-mark">*</span></label>
+          <select class="form-input" id="r-interes" name="referido_interes" required>
+            <option value="" disabled selected>Selecciona...</option>
+            <option>Comprar</option>
+            <option>Vender</option>
+            <option>Arrendar</option>
+            <option>Poner su inmueble en arriendo</option>
+            <option>No estoy seguro</option>
+          </select>
+          <span class="field-error" data-error-for="referido_interes">Selecciona una opción.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="r-comentarios">Comentarios adicionales <span class="optional">opcional</span></label>
+          <textarea class="form-input" id="r-comentarios" name="comentarios" maxlength="300" data-counter></textarea>
+          <span class="char-counter"><span data-counter-current>0</span>/300</span>
+        </div>
+
+        <p class="form-note">Al enviar se abrirá WhatsApp con tu referido listo para confirmar.</p>
+        <button type="submit" class="btn-primary">Enviar por WhatsApp</button>
+      </form>
+    </div>
+
+    <div class="success-panel" data-success-panel>
+      <span class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </span>
+      <h4>¡Gracias por referir!</h4>
+      <p data-success-message>Abrimos WhatsApp con la información lista. Solo confirma el envío para que el equipo de InterRenta la reciba.</p>
+      <a class="btn-primary" data-wa-link target="_blank" rel="noopener">Abrir WhatsApp</a>
+      <button type="button" class="btn-secondary-link" data-close-modal>Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL 4: Contacto ============ -->
 <div class="modal-overlay" id="modal-contacto" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-contacto-title">
     <div class="modal-drag-handle"></div>
@@ -986,7 +1134,6 @@
     <p class="modal-subtitle">Escríbenos y te responderemos lo antes posible.</p>
 
     <div class="form-body">
-      <div class="form-submit-error" data-submit-error>No pudimos enviar tu mensaje. Por favor intenta de nuevo o escríbenos directamente.</div>
       <form id="form-contacto" data-form-type="contacto" novalidate>
 
         <div class="form-row">
@@ -1028,10 +1175,8 @@
           <span class="field-error" data-error-for="mensaje">Escribe tu mensaje.</span>
         </div>
 
-        <button type="submit" class="btn-primary">
-          <span class="spinner"></span>
-          <span data-btn-label>Enviar</span>
-        </button>
+        <p class="form-note">Al enviar se abrirá WhatsApp con tu mensaje listo para confirmar.</p>
+        <button type="submit" class="btn-primary">Enviar por WhatsApp</button>
       </form>
     </div>
 
@@ -1039,8 +1184,9 @@
       <span class="success-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
       </span>
-      <h4>¡Recibido!</h4>
-      <p data-success-message>Gracias. El equipo de InterRenta te contactará en las próximas horas.</p>
+      <h4>¡Ya casi!</h4>
+      <p data-success-message>Abrimos WhatsApp con tu mensaje listo. Solo confirma el envío para que el equipo de InterRenta lo reciba.</p>
+      <a class="btn-primary" data-wa-link target="_blank" rel="noopener">Abrir WhatsApp</a>
       <button type="button" class="btn-secondary-link" data-close-modal>Volver al inicio</button>
     </div>
   </div>
@@ -1050,11 +1196,8 @@
 (function () {
   "use strict";
 
-  // ---- Configuration ----
-  // Reemplaza esta URL por tu endpoint de Formspree o el webhook de n8n:
-  //   Formspree: "https://formspree.io/f/TU_FORM_ID"
-  //   n8n:       "https://TU_INSTANCIA_N8N/webhook/interrenta-leads"
-  var SUBMIT_ENDPOINT = "TU_ENDPOINT";
+  // Número de WhatsApp de InterRenta (indicativo Colombia +57)
+  var WHATSAPP_NUMBER = "573195227378";
 
   // ---- Modal management ----
   var openModalEl = null;
@@ -1152,6 +1295,14 @@
     });
   });
 
+  // ---- Live thousands-separator formatting for money fields ----
+  document.querySelectorAll("[data-money]").forEach(function (input) {
+    input.addEventListener("input", function () {
+      var digits = input.value.replace(/\D/g, "");
+      input.value = digits ? Number(digits).toLocaleString("es-CO") : "";
+    });
+  });
+
   // ---- Validation helpers ----
   function digitsOnly(str) { return (str || "").replace(/\D/g, ""); }
 
@@ -1186,11 +1337,35 @@
       return ok;
     }
 
-    function requirePositiveNumber(name) {
+    function requireEmail(name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var ok = !!(el && isValidEmail(el.value.trim()));
+      showFieldError(form, name, !ok);
+      if (!ok) valid = false;
+      return ok;
+    }
+
+    function requirePhone(name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var ok = !!(el && digitsOnly(el.value).length >= 7);
+      showFieldError(form, name, !ok);
+      if (!ok) valid = false;
+      return ok;
+    }
+
+    function optionalPhone(name) {
       var el = form.querySelector('[name="' + name + '"]');
       var raw = el ? el.value.trim() : "";
-      var num = parseFloat(raw);
-      var ok = raw !== "" && !isNaN(num) && num > 0;
+      var ok = raw === "" || digitsOnly(raw).length >= 7;
+      showFieldError(form, name, !ok);
+      if (!ok) valid = false;
+      return ok;
+    }
+
+    function requirePositiveMoney(name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var raw = el ? digitsOnly(el.value) : "";
+      var ok = raw !== "" && parseInt(raw, 10) > 0;
       showFieldError(form, name, !ok);
       if (!ok) valid = false;
       return ok;
@@ -1207,33 +1382,33 @@
       return ok;
     }
 
-    requireText("nombre");
-
-    var emailEl = form.querySelector('[name="email"]');
-    var emailOk = !!(emailEl && isValidEmail(emailEl.value.trim()));
-    showFieldError(form, "email", !emailOk);
-    if (!emailOk) valid = false;
-
-    var telEl = form.querySelector('[name="telefono"]');
-    var telRequired = type !== "contacto";
-    if (telEl) {
-      var telDigits = digitsOnly(telEl.value);
-      var telOk = telRequired ? telDigits.length >= 7 : (telEl.value.trim() === "" || telDigits.length >= 7);
-      showFieldError(form, "telefono", !telOk);
-      if (!telOk) valid = false;
-    }
-
     if (type === "vender") {
+      requireText("nombre");
+      requireEmail("email");
+      requirePhone("telefono");
       requireSelect("tipo_inmueble");
       requireText("direccion");
       requireSelect("municipio");
-      requirePositiveNumber("precio");
+      requirePositiveMoney("precio");
       optionalPositiveNumber("area_m2");
     } else if (type === "comprar") {
+      requireText("nombre");
+      requireEmail("email");
+      requirePhone("telefono");
       requireSelect("tipo_inmueble");
       requireSelect("municipio_interes");
-      requirePositiveNumber("presupuesto");
+      requirePositiveMoney("presupuesto");
+    } else if (type === "referido") {
+      requireText("referente_nombre");
+      requirePhone("referente_telefono");
+      requireText("referente_unidad");
+      requireText("referido_nombre");
+      requirePhone("referido_telefono");
+      requireSelect("referido_interes");
     } else if (type === "contacto") {
+      requireText("nombre");
+      requireEmail("email");
+      optionalPhone("telefono");
       requireSelect("asunto");
       requireText("mensaje");
     }
@@ -1271,7 +1446,7 @@
         tipo_inmueble: fd.tipo_inmueble,
         direccion: fd.direccion.trim(),
         municipio: fd.municipio,
-        precio: parseFloat(fd.precio) || 0,
+        precio: parseInt(digitsOnly(fd.precio), 10) || 0,
         area_m2: fd.area_m2 ? parseFloat(fd.area_m2) : null,
         habitaciones: fd.habitaciones || null,
         banos: fd.banos || null,
@@ -1292,10 +1467,24 @@
         telefono: fd.telefono.trim(),
         operacion: fd.operacion,
         tipo_inmueble: fd.tipo_inmueble,
-        presupuesto: parseFloat(fd.presupuesto) || 0,
+        presupuesto: parseInt(digitsOnly(fd.presupuesto), 10) || 0,
         municipio_interes: fd.municipio_interes,
         habitaciones_min: fd.habitaciones_min || null,
         caracteristicas: caracteristicas,
+        comentarios: (fd.comentarios || "").trim()
+      };
+    }
+
+    if (type === "referido") {
+      return {
+        tipo_formulario: "Referido",
+        referente_nombre: fd.referente_nombre.trim(),
+        referente_telefono: fd.referente_telefono.trim(),
+        referente_tipo: fd.referente_tipo,
+        referente_unidad: fd.referente_unidad.trim(),
+        referido_nombre: fd.referido_nombre.trim(),
+        referido_telefono: fd.referido_telefono.trim(),
+        referido_interes: fd.referido_interes,
         comentarios: (fd.comentarios || "").trim()
       };
     }
@@ -1311,17 +1500,72 @@
     };
   }
 
+  // ---- WhatsApp message builders ----
+  function money(n) { return "$" + Number(n || 0).toLocaleString("es-CO"); }
+
+  function buildWhatsAppMessage(type, p) {
+    var lines = [];
+
+    if (type === "vender") {
+      lines.push("*Nueva solicitud — Publicar inmueble* 🏠", "");
+      lines.push("*Operación:* " + p.operacion);
+      lines.push("*Nombre:* " + p.nombre);
+      lines.push("*Teléfono:* " + p.telefono);
+      lines.push("*Email:* " + p.email, "");
+      lines.push("*Tipo de inmueble:* " + p.tipo_inmueble);
+      lines.push("*Dirección:* " + p.direccion);
+      lines.push("*Municipio:* " + p.municipio);
+      lines.push("*Precio:* " + money(p.precio));
+      if (p.area_m2) lines.push("*Área:* " + p.area_m2 + " m²");
+      if (p.habitaciones) lines.push("*Habitaciones:* " + p.habitaciones);
+      if (p.banos) lines.push("*Baños:* " + p.banos);
+      lines.push("*Parqueadero:* " + (p.parqueadero ? "Sí" : "No"));
+      if (p.comentarios) lines.push("", "*Comentarios:*", p.comentarios);
+    } else if (type === "comprar") {
+      lines.push("*Nueva solicitud — Comprar/Arrendar* 🔍", "");
+      lines.push("*Operación:* " + p.operacion);
+      lines.push("*Nombre:* " + p.nombre);
+      lines.push("*Teléfono:* " + p.telefono);
+      lines.push("*Email:* " + p.email, "");
+      lines.push("*Tipo de inmueble:* " + p.tipo_inmueble);
+      lines.push("*Presupuesto:* " + money(p.presupuesto));
+      lines.push("*Zona de interés:* " + p.municipio_interes);
+      if (p.habitaciones_min) lines.push("*Mín. habitaciones:* " + p.habitaciones_min);
+      if (p.caracteristicas.length) lines.push("*Características:* " + p.caracteristicas.join(", "));
+      if (p.comentarios) lines.push("", "*Detalles:*", p.comentarios);
+    } else if (type === "referido") {
+      lines.push("*Nuevo referido* 🤝", "");
+      lines.push("*Quien refiere:* " + p.referente_nombre + " (" + p.referente_tipo + ")");
+      lines.push("*Unidad / Ubicación:* " + p.referente_unidad);
+      lines.push("*Teléfono de quien refiere:* " + p.referente_telefono, "");
+      lines.push("*Referido:* " + p.referido_nombre);
+      lines.push("*Teléfono del referido:* " + p.referido_telefono);
+      lines.push("*Interesado en:* " + p.referido_interes);
+      if (p.comentarios) lines.push("", "*Comentarios:*", p.comentarios);
+    } else {
+      lines.push("*Nuevo mensaje de contacto* 💬", "");
+      lines.push("*Nombre:* " + p.nombre);
+      lines.push("*Email:* " + p.email);
+      if (p.telefono) lines.push("*Teléfono:* " + p.telefono);
+      lines.push("*Asunto:* " + p.asunto, "");
+      lines.push("*Mensaje:*", p.mensaje);
+    }
+
+    return lines.join("\n");
+  }
+
+  function buildWhatsAppUrl(message) {
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  }
+
   // ---- Submit handling ----
   document.querySelectorAll("form[data-form-type]").forEach(function (form) {
     var modalContent = form.closest(".modal-content");
     var formBody = modalContent.querySelector(".form-body");
     var successPanel = modalContent.querySelector("[data-success-panel]");
-    var submitErrorEl = modalContent.querySelector("[data-submit-error]");
-    var btnLabel = form.querySelector("[data-btn-label]");
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      submitErrorEl.classList.remove("is-visible");
 
       if (!validateForm(form)) {
         var firstInvalid = form.querySelector(".invalid");
@@ -1329,32 +1573,23 @@
         return;
       }
 
+      var type = form.getAttribute("data-form-type");
       var payload = buildPayload(form);
-      form.classList.add("is-submitting");
-      btnLabel.textContent = "Enviando...";
+      var message = buildWhatsAppMessage(type, payload);
+      var waUrl = buildWhatsAppUrl(message);
+      var displayName = payload.nombre || payload.referente_nombre || "";
 
-      fetch(SUBMIT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error("Submit failed");
-          onSubmitSuccess(payload.nombre);
-        })
-        .catch(function () {
-          form.classList.remove("is-submitting");
-          btnLabel.textContent = "Enviar";
-          submitErrorEl.classList.add("is-visible");
-        });
+      window.open(waUrl, "_blank", "noopener");
+      onSubmitSuccess(displayName, waUrl);
     });
 
-    function onSubmitSuccess(nombre) {
-      form.classList.remove("is-submitting");
-      btnLabel.textContent = "Enviar";
+    function onSubmitSuccess(nombre, waUrl) {
       var firstName = (nombre || "").split(" ")[0] || "";
       var msgEl = successPanel.querySelector("[data-success-message]");
-      msgEl.textContent = "Gracias" + (firstName ? ", " + firstName : "") + ". El equipo de InterRenta te contactará en las próximas horas.";
+      var baseMsg = msgEl.textContent;
+      if (firstName) msgEl.textContent = "Gracias, " + firstName + ". " + baseMsg;
+      var waLink = successPanel.querySelector("[data-wa-link]");
+      if (waLink) waLink.href = waUrl;
       formBody.classList.add("is-hidden");
       successPanel.classList.add("is-visible");
     }
@@ -1365,6 +1600,7 @@
     var form = overlay.querySelector("form");
     var formBody = overlay.querySelector(".form-body");
     var successPanel = overlay.querySelector("[data-success-panel]");
+    var originalSuccessMsg = successPanel.querySelector("[data-success-message]").textContent;
 
     var observer = new MutationObserver(function () {
       if (!overlay.classList.contains("is-open") && successPanel.classList.contains("is-visible")) {
@@ -1379,6 +1615,7 @@
             var hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
             if (hiddenInput && options[0]) hiddenInput.value = options[0].getAttribute("data-value");
           });
+          successPanel.querySelector("[data-success-message]").textContent = originalSuccessMsg;
           formBody.classList.remove("is-hidden");
           successPanel.classList.remove("is-visible");
         }, 250);
