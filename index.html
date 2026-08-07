@@ -1,0 +1,1394 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InterRenta — Vende o arrienda tu inmueble en el Oriente Antioqueño</title>
+<meta name="description" content="¿Tienes un inmueble en el Oriente Antioqueño? InterRenta lo vende o arrienda por ti. Asesoría profesional, resultados reales." />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="InterRenta — Tu aliado inmobiliario" />
+<meta property="og:description" content="Vende o arrienda tu inmueble con el equipo que conoce el Oriente Antioqueño." />
+<meta property="og:image" content="https://www.interrenta.com/og-image.jpg" />
+<meta property="og:url" content="https://portal.interrenta.com" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="https://www.interrenta.com/favicon.ico?v=3" />
+<link rel="canonical" href="https://portal.interrenta.com" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --color-primary: #00C950;
+    --color-primary-hover: #00b347;
+    --color-accent: #ECB337;
+    --color-bg: #161616;
+    --color-surface: #232222;
+    --color-surface-2: #2a2929;
+    --color-border: #4C3D1E;
+    --color-border-light: #333333;
+    --color-text: #E2E2E2;
+    --color-text-muted: #B8BCC8;
+    --color-error: #FF5C5C;
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+
+    --radius-sm: 8px;
+    --radius: 16px;
+    --radius-lg: 24px;
+
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --glow-green: 0 0 20px rgba(0, 201, 80, 0.2);
+    --glow-gold: 0 0 20px rgba(236, 179, 55, 0.2);
+
+    --transition: all 0.2s ease;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body.modal-open { overflow: hidden; }
+
+  img { max-width: 100%; display: block; }
+
+  button { font-family: inherit; }
+
+  a { color: var(--color-primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Header ---------- */
+  header.site-header {
+    padding: 40px 24px 8px;
+    display: flex;
+    justify-content: center;
+  }
+
+  header.site-header img.logo {
+    max-width: 160px;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 767px) {
+    header.site-header img.logo { max-width: 120px; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 48px 24px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--color-border);
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(44px, 7vw, 88px);
+    color: var(--color-text);
+    line-height: 1.08;
+    max-width: 900px;
+  }
+
+  .hero p {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--color-text-muted);
+    max-width: 520px;
+    margin: 20px auto 0;
+    text-align: center;
+  }
+
+  /* ---------- Cards ---------- */
+  .cards-section {
+    padding: 40px 24px 64px;
+    flex: 1;
+  }
+
+  .cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    flex: 1 1 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition);
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards;
+  }
+
+  .card:nth-child(1) { animation-delay: 0ms; }
+  .card:nth-child(2) { animation-delay: 120ms; }
+  .card:nth-child(3) { animation-delay: 240ms; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { animation: none; opacity: 1; }
+  }
+
+  .card:hover { transform: translateY(-2px); }
+
+  .card:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  .card-primary {
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: var(--glow-green);
+    flex-grow: 1.4;
+    flex-basis: 340px;
+  }
+
+  .card-secondary {
+    border: 1px solid var(--color-border);
+  }
+  .card-secondary:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--glow-green);
+  }
+
+  .card-tertiary:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--glow-gold);
+  }
+
+  .card-icon {
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+  .card-primary .card-icon { width: 40px; height: 40px; }
+  .card-secondary .card-icon,
+  .card-tertiary .card-icon { width: 32px; height: 32px; }
+  .card-tertiary .card-icon { color: var(--color-accent); }
+
+  .card h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  .card-secondary h2, .card-tertiary h2 { font-size: 22px; }
+
+  .card p {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+  }
+
+  .card-cta {
+    margin-top: auto;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-primary .card-cta { color: var(--color-primary); }
+  .card-secondary .card-cta { color: var(--color-text); }
+  .card-tertiary .card-cta { color: var(--color-accent); }
+
+  @media (max-width: 1023px) {
+    .cards-grid { flex-wrap: wrap; }
+    .card { flex: 1 1 45%; }
+    .card-primary { flex: 1 1 100%; order: -1; }
+  }
+
+  @media (max-width: 767px) {
+    .cards-grid { flex-direction: column; }
+    .card { width: 100%; flex-basis: auto; }
+  }
+
+  @media (max-width: 479px) {
+    .cards-section { padding: 32px 16px 48px; }
+    .card { padding: 28px 20px; }
+    .card-primary { padding: 32px 24px; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site-footer {
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border-light);
+  }
+  footer.site-footer a { color: var(--color-text-muted); }
+  footer.site-footer a:hover { color: var(--color-primary); }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .modal-overlay.is-open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .modal-content {
+    background: #1e1e1e;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    max-width: 560px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 40px 36px;
+    position: relative;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .modal-overlay.is-open .modal-content {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .modal-drag-handle {
+    display: none;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: var(--color-surface-2);
+    color: var(--color-text-muted);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+  }
+  .modal-close:hover {
+    color: var(--color-text);
+    background: var(--color-border-light);
+  }
+
+  .modal-content h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--color-text);
+    margin-bottom: 6px;
+    padding-right: 32px;
+  }
+
+  .modal-subtitle {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 640px) {
+    .modal-overlay {
+      align-items: flex-end;
+      padding: 0;
+    }
+    .modal-content {
+      max-width: 100%;
+      width: 100%;
+      max-height: 92vh;
+      border-radius: 24px 24px 0 0;
+      padding: 16px 24px 32px;
+      transform: translateY(100%);
+    }
+    .modal-overlay.is-open .modal-content {
+      transform: translateY(0);
+    }
+    .modal-drag-handle {
+      display: block;
+      width: 40px;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--color-border-light);
+      margin: 0 auto 20px;
+    }
+    .modal-content h3 { font-size: 26px; margin-top: 8px; }
+  }
+
+  /* ---------- Forms ---------- */
+  form { display: flex; flex-direction: column; gap: 18px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .form-group label .optional {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: 12px;
+  }
+  .form-group label .required-mark { color: var(--color-primary); }
+
+  .form-input,
+  select.form-input,
+  textarea.form-input {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    width: 100%;
+    transition: var(--transition);
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23B8BCC8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 36px;
+  }
+
+  textarea.form-input { resize: vertical; min-height: 90px; }
+
+  .form-input::placeholder { color: #7a7a7a; }
+
+  .form-input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 201, 80, 0.15);
+  }
+
+  .form-input.invalid {
+    border-color: var(--color-error);
+  }
+
+  fieldset:disabled .form-input,
+  form.is-submitting .form-input {
+    opacity: 0.6;
+  }
+  form.is-submitting {
+    pointer-events: none;
+  }
+
+  .field-error {
+    font-size: 12px;
+    color: var(--color-error);
+    display: none;
+  }
+  .field-error.is-visible { display: block; }
+
+  .input-group { position: relative; }
+  .input-group .input-prefix {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .input-group input { padding-left: 30px; }
+
+  .char-counter {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    text-align: right;
+  }
+
+  /* Toggle pill */
+  .toggle-group {
+    display: flex;
+    background: var(--color-surface-2);
+    border-radius: var(--radius);
+    padding: 4px;
+    gap: 4px;
+  }
+  .toggle-option {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .toggle-option.is-active {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  /* Checkbox */
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .checkbox-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+  }
+  .checkbox-row label {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 480px) {
+    .checkbox-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Buttons */
+  .btn-primary {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border-radius: 16px;
+    padding: 14px 32px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+  .btn-primary:disabled { cursor: not-allowed; transform: none; }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  form.is-submitting .spinner { display: inline-block; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .form-submit-error {
+    background: rgba(255, 92, 92, 0.1);
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13px;
+    display: none;
+  }
+  .form-submit-error.is-visible { display: block; }
+
+  /* Success panel */
+  .success-panel {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px 0 4px;
+    animation: fadeIn 0.3s ease;
+  }
+  .success-panel.is-visible { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(0, 201, 80, 0.12);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .success-panel h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .success-panel p {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    max-width: 380px;
+    margin-bottom: 24px;
+  }
+
+  .btn-secondary-link {
+    background: transparent;
+    border: 1px solid var(--color-border-light);
+    color: var(--color-text);
+    border-radius: 16px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .btn-secondary-link:hover { border-color: var(--color-primary); }
+
+  .form-body.is-hidden { display: none; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <img class="logo" src="https://www.interrenta.com/assets/LogointerrentaTransparente-BNjlYIBK.png" alt="InterRenta" />
+</header>
+
+<section class="hero">
+  <div class="hero-divider"></div>
+  <h1>Tu inmueble merece el mejor aliado</h1>
+  <p>Ponemos tu propiedad en manos de quien la cuida. Oriente Antioqueño y Medellín.</p>
+</section>
+
+<section class="cards-section">
+  <div class="cards-grid">
+
+    <button type="button" class="card card-primary" data-modal="modal-vender">
+      <span class="card-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-5.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20h3.5a1 1 0 0 0 1-1v-9"/></svg>
+      </span>
+      <h2>Quiero rentar o vender mi inmueble</h2>
+      <p>Publícalo con nosotros y llega a compradores y arrendatarios reales del Oriente Antioqueño.</p>
+      <span class="card-cta">Publicar mi inmueble →</span>
+    </button>
+
+    <button type="button" class="card card-secondary" data-modal="modal-comprar">
+      <span class="card-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.7-4.7"/></svg>
+      </span>
+      <h2>Quiero comprar o arrendar</h2>
+      <p>Cuéntanos qué buscas y te ayudamos a encontrarlo.</p>
+      <span class="card-cta">Buscar inmueble →</span>
+    </button>
+
+    <button type="button" class="card card-tertiary" data-modal="modal-contacto">
+      <span class="card-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </span>
+      <h2>Contáctame</h2>
+      <p>¿Tienes otra pregunta? Escríbenos.</p>
+      <span class="card-cta">Escribir mensaje →</span>
+    </button>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  © 2025 InterRenta · Oriente Antioqueño ·
+  <a href="https://www.interrenta.com" target="_blank" rel="noopener">Ver catálogo en interrenta.com</a>
+</footer>
+
+<!-- ============ MODAL 1: Vender / Arrendar ============ -->
+<div class="modal-overlay" id="modal-vender" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-vender-title">
+    <div class="modal-drag-handle"></div>
+    <button type="button" class="modal-close" data-close-modal aria-label="Cerrar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l12 12M14 2 2 14"/></svg>
+    </button>
+    <h3 id="modal-vender-title">Publica tu inmueble con InterRenta</h3>
+    <p class="modal-subtitle">Cuéntanos los detalles y un asesor te contactará pronto.</p>
+
+    <div class="form-body">
+      <div class="form-submit-error" data-submit-error>No pudimos enviar tu formulario. Por favor intenta de nuevo o escríbenos directamente.</div>
+      <form id="form-vender" data-form-type="vender" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="v-nombre">Nombre completo <span class="required-mark">*</span></label>
+            <input class="form-input" type="text" id="v-nombre" name="nombre" required />
+            <span class="field-error" data-error-for="nombre">Ingresa tu nombre completo.</span>
+          </div>
+          <div class="form-group">
+            <label for="v-email">Correo electrónico <span class="required-mark">*</span></label>
+            <input class="form-input" type="email" id="v-email" name="email" required />
+            <span class="field-error" data-error-for="email">Ingresa un correo válido.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="v-telefono">Teléfono / WhatsApp <span class="required-mark">*</span></label>
+          <input class="form-input" type="tel" id="v-telefono" name="telefono" required />
+          <span class="field-error" data-error-for="telefono">Ingresa un teléfono válido (mín. 7 dígitos).</span>
+        </div>
+
+        <div class="form-group">
+          <label>¿Qué quieres hacer con tu inmueble? <span class="required-mark">*</span></label>
+          <div class="toggle-group" data-toggle-group data-toggle-name="operacion">
+            <button type="button" class="toggle-option is-active" data-value="Vender">Vender</button>
+            <button type="button" class="toggle-option" data-value="Arrendar">Arrendar</button>
+          </div>
+          <input type="hidden" name="operacion" value="Vender" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="v-tipo">Tipo de inmueble <span class="required-mark">*</span></label>
+            <select class="form-input" id="v-tipo" name="tipo_inmueble" required>
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Casa</option>
+              <option>Apartamento</option>
+              <option>Lote</option>
+              <option>Local comercial</option>
+              <option>Bodega</option>
+              <option>Finca</option>
+              <option>Otro</option>
+            </select>
+            <span class="field-error" data-error-for="tipo_inmueble">Selecciona un tipo de inmueble.</span>
+          </div>
+          <div class="form-group">
+            <label for="v-municipio">Municipio <span class="required-mark">*</span></label>
+            <select class="form-input" id="v-municipio" name="municipio" required>
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Rionegro</option>
+              <option>El Retiro</option>
+              <option>Guarne</option>
+              <option>Marinilla</option>
+              <option>La Ceja</option>
+              <option>El Carmen de Viboral</option>
+              <option>San Vicente</option>
+              <option>Medellín</option>
+              <option>Otro</option>
+            </select>
+            <span class="field-error" data-error-for="municipio">Selecciona un municipio.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="v-direccion">Dirección del inmueble <span class="required-mark">*</span></label>
+          <input class="form-input" type="text" id="v-direccion" name="direccion" required />
+          <span class="field-error" data-error-for="direccion">Ingresa la dirección del inmueble.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="v-precio">Precio de venta o canon mensual <span class="required-mark">*</span></label>
+            <div class="input-group">
+              <span class="input-prefix">$</span>
+              <input class="form-input" type="number" min="0" step="1" id="v-precio" name="precio" required />
+            </div>
+            <span class="field-error" data-error-for="precio">Ingresa un valor numérico positivo.</span>
+          </div>
+          <div class="form-group">
+            <label for="v-area">Área total (m²) <span class="optional">opcional</span></label>
+            <input class="form-input" type="number" min="0" step="1" id="v-area" name="area_m2" />
+            <span class="field-error" data-error-for="area_m2">Ingresa un valor numérico positivo.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="v-habitaciones">Habitaciones <span class="optional">opcional</span></label>
+            <select class="form-input" id="v-habitaciones" name="habitaciones">
+              <option value="">Selecciona...</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="v-banos">Baños <span class="optional">opcional</span></label>
+            <select class="form-input" id="v-banos" name="banos">
+              <option value="">Selecciona...</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="v-parqueadero" name="parqueadero" />
+          <label for="v-parqueadero">¿Tiene parqueadero?</label>
+        </div>
+
+        <div class="form-group">
+          <label for="v-comentarios">Comentarios adicionales <span class="optional">opcional</span></label>
+          <textarea class="form-input" id="v-comentarios" name="comentarios" maxlength="300" data-counter></textarea>
+          <span class="char-counter"><span data-counter-current>0</span>/300</span>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <span class="spinner"></span>
+          <span data-btn-label>Enviar</span>
+        </button>
+      </form>
+    </div>
+
+    <div class="success-panel" data-success-panel>
+      <span class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </span>
+      <h4>¡Recibido!</h4>
+      <p data-success-message>Gracias. El equipo de InterRenta te contactará en las próximas horas.</p>
+      <button type="button" class="btn-secondary-link" data-close-modal>Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL 2: Comprar / Arrendar ============ -->
+<div class="modal-overlay" id="modal-comprar" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-comprar-title">
+    <div class="modal-drag-handle"></div>
+    <button type="button" class="modal-close" data-close-modal aria-label="Cerrar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l12 12M14 2 2 14"/></svg>
+    </button>
+    <h3 id="modal-comprar-title">Cuéntanos qué estás buscando</h3>
+    <p class="modal-subtitle">Te ayudamos a encontrar el inmueble ideal.</p>
+
+    <div class="form-body">
+      <div class="form-submit-error" data-submit-error>No pudimos enviar tu formulario. Por favor intenta de nuevo o escríbenos directamente.</div>
+      <form id="form-comprar" data-form-type="comprar" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="c-nombre">Nombre completo <span class="required-mark">*</span></label>
+            <input class="form-input" type="text" id="c-nombre" name="nombre" required />
+            <span class="field-error" data-error-for="nombre">Ingresa tu nombre completo.</span>
+          </div>
+          <div class="form-group">
+            <label for="c-email">Correo electrónico <span class="required-mark">*</span></label>
+            <input class="form-input" type="email" id="c-email" name="email" required />
+            <span class="field-error" data-error-for="email">Ingresa un correo válido.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="c-telefono">Teléfono / WhatsApp <span class="required-mark">*</span></label>
+          <input class="form-input" type="tel" id="c-telefono" name="telefono" required />
+          <span class="field-error" data-error-for="telefono">Ingresa un teléfono válido (mín. 7 dígitos).</span>
+        </div>
+
+        <div class="form-group">
+          <label>¿Qué quieres hacer? <span class="required-mark">*</span></label>
+          <div class="toggle-group" data-toggle-group data-toggle-name="operacion">
+            <button type="button" class="toggle-option is-active" data-value="Comprar">Comprar</button>
+            <button type="button" class="toggle-option" data-value="Arrendar">Arrendar</button>
+          </div>
+          <input type="hidden" name="operacion" value="Comprar" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="c-tipo">Tipo de inmueble buscado <span class="required-mark">*</span></label>
+            <select class="form-input" id="c-tipo" name="tipo_inmueble" required>
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Casa</option>
+              <option>Apartamento</option>
+              <option>Lote</option>
+              <option>Local</option>
+              <option>Finca</option>
+              <option>Cualquiera</option>
+            </select>
+            <span class="field-error" data-error-for="tipo_inmueble">Selecciona un tipo de inmueble.</span>
+          </div>
+          <div class="form-group">
+            <label for="c-municipio">Zona / Municipio de interés <span class="required-mark">*</span></label>
+            <select class="form-input" id="c-municipio" name="municipio_interes" required>
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Rionegro</option>
+              <option>El Retiro</option>
+              <option>Guarne</option>
+              <option>Marinilla</option>
+              <option>La Ceja</option>
+              <option>El Carmen de Viboral</option>
+              <option>San Vicente</option>
+              <option>Medellín</option>
+              <option>Otro</option>
+            </select>
+            <span class="field-error" data-error-for="municipio_interes">Selecciona un municipio.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="c-presupuesto">Presupuesto máximo <span class="required-mark">*</span></label>
+            <div class="input-group">
+              <span class="input-prefix">$</span>
+              <input class="form-input" type="number" min="0" step="1" id="c-presupuesto" name="presupuesto" required />
+            </div>
+            <span class="field-error" data-error-for="presupuesto">Ingresa un valor numérico positivo.</span>
+          </div>
+          <div class="form-group">
+            <label for="c-habitaciones">Mín. habitaciones <span class="optional">opcional</span></label>
+            <select class="form-input" id="c-habitaciones" name="habitaciones_min">
+              <option value="">Selecciona...</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Características importantes <span class="optional">opcional</span></label>
+          <div class="checkbox-grid" data-checkbox-group="caracteristicas">
+            <div class="checkbox-row">
+              <input type="checkbox" id="c-carac-1" value="Parqueadero" />
+              <label for="c-carac-1">Parqueadero</label>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="c-carac-2" value="Piscina" />
+              <label for="c-carac-2">Piscina</label>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="c-carac-3" value="Zona verde" />
+              <label for="c-carac-3">Zona verde</label>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="c-carac-4" value="BBQ" />
+              <label for="c-carac-4">BBQ</label>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="c-carac-5" value="Portería" />
+              <label for="c-carac-5">Portería</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="c-comentarios">Cuéntanos más sobre lo que buscas <span class="optional">opcional</span></label>
+          <textarea class="form-input" id="c-comentarios" name="comentarios" maxlength="300" data-counter></textarea>
+          <span class="char-counter"><span data-counter-current>0</span>/300</span>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <span class="spinner"></span>
+          <span data-btn-label>Enviar</span>
+        </button>
+      </form>
+    </div>
+
+    <div class="success-panel" data-success-panel>
+      <span class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </span>
+      <h4>¡Recibido!</h4>
+      <p data-success-message>Gracias. El equipo de InterRenta te contactará en las próximas horas.</p>
+      <button type="button" class="btn-secondary-link" data-close-modal>Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL 3: Contacto ============ -->
+<div class="modal-overlay" id="modal-contacto" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-contacto-title">
+    <div class="modal-drag-handle"></div>
+    <button type="button" class="modal-close" data-close-modal aria-label="Cerrar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l12 12M14 2 2 14"/></svg>
+    </button>
+    <h3 id="modal-contacto-title">¿En qué te podemos ayudar?</h3>
+    <p class="modal-subtitle">Escríbenos y te responderemos lo antes posible.</p>
+
+    <div class="form-body">
+      <div class="form-submit-error" data-submit-error>No pudimos enviar tu mensaje. Por favor intenta de nuevo o escríbenos directamente.</div>
+      <form id="form-contacto" data-form-type="contacto" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ct-nombre">Nombre completo <span class="required-mark">*</span></label>
+            <input class="form-input" type="text" id="ct-nombre" name="nombre" required />
+            <span class="field-error" data-error-for="nombre">Ingresa tu nombre completo.</span>
+          </div>
+          <div class="form-group">
+            <label for="ct-email">Correo electrónico <span class="required-mark">*</span></label>
+            <input class="form-input" type="email" id="ct-email" name="email" required />
+            <span class="field-error" data-error-for="email">Ingresa un correo válido.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ct-telefono">Teléfono / WhatsApp <span class="optional">opcional</span></label>
+          <input class="form-input" type="tel" id="ct-telefono" name="telefono" />
+          <span class="field-error" data-error-for="telefono">Ingresa un teléfono válido (mín. 7 dígitos).</span>
+        </div>
+
+        <div class="form-group">
+          <label for="ct-asunto">Asunto <span class="required-mark">*</span></label>
+          <select class="form-input" id="ct-asunto" name="asunto" required>
+            <option value="" disabled selected>Selecciona...</option>
+            <option>Información general</option>
+            <option>Asesoría inmobiliaria</option>
+            <option>Inversión</option>
+            <option>Alianza comercial</option>
+            <option>Otro</option>
+          </select>
+          <span class="field-error" data-error-for="asunto">Selecciona un asunto.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="ct-mensaje">Mensaje <span class="required-mark">*</span></label>
+          <textarea class="form-input" id="ct-mensaje" name="mensaje" maxlength="500" required data-counter></textarea>
+          <span class="char-counter"><span data-counter-current>0</span>/500</span>
+          <span class="field-error" data-error-for="mensaje">Escribe tu mensaje.</span>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <span class="spinner"></span>
+          <span data-btn-label>Enviar</span>
+        </button>
+      </form>
+    </div>
+
+    <div class="success-panel" data-success-panel>
+      <span class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </span>
+      <h4>¡Recibido!</h4>
+      <p data-success-message>Gracias. El equipo de InterRenta te contactará en las próximas horas.</p>
+      <button type="button" class="btn-secondary-link" data-close-modal>Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---- Configuration ----
+  // Reemplaza esta URL por tu endpoint de Formspree o el webhook de n8n:
+  //   Formspree: "https://formspree.io/f/TU_FORM_ID"
+  //   n8n:       "https://TU_INSTANCIA_N8N/webhook/interrenta-leads"
+  var SUBMIT_ENDPOINT = "TU_ENDPOINT";
+
+  // ---- Modal management ----
+  var openModalEl = null;
+
+  function openModal(id) {
+    var overlay = document.getElementById(id);
+    if (!overlay) return;
+    overlay.classList.add("is-open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    openModalEl = overlay;
+    var firstInput = overlay.querySelector(".form-input");
+    if (firstInput) setTimeout(function () { firstInput.focus(); }, 150);
+  }
+
+  function closeModal(overlay) {
+    if (!overlay) return;
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    openModalEl = null;
+  }
+
+  document.querySelectorAll("[data-modal]").forEach(function (card) {
+    card.addEventListener("click", function () {
+      openModal(card.getAttribute("data-modal"));
+    });
+  });
+
+  document.querySelectorAll(".modal-overlay").forEach(function (overlay) {
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) closeModal(overlay);
+    });
+  });
+
+  document.querySelectorAll("[data-close-modal]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      closeModal(btn.closest(".modal-overlay"));
+    });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && openModalEl) closeModal(openModalEl);
+  });
+
+  // ---- Swipe down to close (mobile) ----
+  document.querySelectorAll(".modal-content").forEach(function (content) {
+    var startY = 0, currentY = 0, dragging = false;
+
+    content.addEventListener("touchstart", function (e) {
+      if (content.scrollTop > 0) return;
+      startY = e.touches[0].clientY;
+      dragging = true;
+      content.style.transition = "none";
+    }, { passive: true });
+
+    content.addEventListener("touchmove", function (e) {
+      if (!dragging) return;
+      currentY = e.touches[0].clientY - startY;
+      if (currentY > 0) {
+        content.style.transform = "translateY(" + currentY + "px)";
+      }
+    }, { passive: true });
+
+    content.addEventListener("touchend", function () {
+      if (!dragging) return;
+      dragging = false;
+      content.style.transition = "";
+      if (currentY > 120) {
+        closeModal(content.closest(".modal-overlay"));
+      }
+      content.style.transform = "";
+      currentY = 0;
+    });
+  });
+
+  // ---- Toggle pill groups ----
+  document.querySelectorAll("[data-toggle-group]").forEach(function (group) {
+    var hiddenInput = group.parentElement.querySelector('input[type="hidden"][name="' + group.getAttribute("data-toggle-name") + '"]');
+    group.querySelectorAll(".toggle-option").forEach(function (opt) {
+      opt.addEventListener("click", function () {
+        group.querySelectorAll(".toggle-option").forEach(function (o) { o.classList.remove("is-active"); });
+        opt.classList.add("is-active");
+        if (hiddenInput) hiddenInput.value = opt.getAttribute("data-value");
+      });
+    });
+  });
+
+  // ---- Character counters ----
+  document.querySelectorAll("[data-counter]").forEach(function (textarea) {
+    var counterEl = textarea.parentElement.querySelector("[data-counter-current]");
+    if (!counterEl) return;
+    textarea.addEventListener("input", function () {
+      counterEl.textContent = textarea.value.length;
+    });
+  });
+
+  // ---- Validation helpers ----
+  function digitsOnly(str) { return (str || "").replace(/\D/g, ""); }
+
+  function showFieldError(form, fieldName, show) {
+    var input = form.querySelector('[name="' + fieldName + '"]');
+    var errorEl = form.querySelector('[data-error-for="' + fieldName + '"]');
+    if (input) input.classList.toggle("invalid", show);
+    if (errorEl) errorEl.classList.toggle("is-visible", show);
+  }
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function validateForm(form) {
+    var valid = true;
+    var type = form.getAttribute("data-form-type");
+
+    function requireText(name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var ok = !!(el && el.value.trim());
+      showFieldError(form, name, !ok);
+      if (!ok) valid = false;
+      return ok;
+    }
+
+    function requireSelect(name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var ok = !!(el && el.value.trim());
+      showFieldError(form, name, !ok);
+      if (!ok) valid = false;
+      return ok;
+    }
+
+    function requirePositiveNumber(name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var raw = el ? el.value.trim() : "";
+      var num = parseFloat(raw);
+      var ok = raw !== "" && !isNaN(num) && num > 0;
+      showFieldError(form, name, !ok);
+      if (!ok) valid = false;
+      return ok;
+    }
+
+    function optionalPositiveNumber(name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var raw = el ? el.value.trim() : "";
+      if (raw === "") { showFieldError(form, name, false); return true; }
+      var num = parseFloat(raw);
+      var ok = !isNaN(num) && num > 0;
+      showFieldError(form, name, !ok);
+      if (!ok) valid = false;
+      return ok;
+    }
+
+    requireText("nombre");
+
+    var emailEl = form.querySelector('[name="email"]');
+    var emailOk = !!(emailEl && isValidEmail(emailEl.value.trim()));
+    showFieldError(form, "email", !emailOk);
+    if (!emailOk) valid = false;
+
+    var telEl = form.querySelector('[name="telefono"]');
+    var telRequired = type !== "contacto";
+    if (telEl) {
+      var telDigits = digitsOnly(telEl.value);
+      var telOk = telRequired ? telDigits.length >= 7 : (telEl.value.trim() === "" || telDigits.length >= 7);
+      showFieldError(form, "telefono", !telOk);
+      if (!telOk) valid = false;
+    }
+
+    if (type === "vender") {
+      requireSelect("tipo_inmueble");
+      requireText("direccion");
+      requireSelect("municipio");
+      requirePositiveNumber("precio");
+      optionalPositiveNumber("area_m2");
+    } else if (type === "comprar") {
+      requireSelect("tipo_inmueble");
+      requireSelect("municipio_interes");
+      requirePositiveNumber("presupuesto");
+    } else if (type === "contacto") {
+      requireSelect("asunto");
+      requireText("mensaje");
+    }
+
+    return valid;
+  }
+
+  // Clear a field's error state as the user fixes it
+  document.querySelectorAll("form[data-form-type]").forEach(function (form) {
+    form.addEventListener("input", function (e) {
+      var name = e.target.getAttribute("name");
+      if (name) showFieldError(form, name, false);
+    });
+    form.addEventListener("change", function (e) {
+      var name = e.target.getAttribute("name");
+      if (name) showFieldError(form, name, false);
+    });
+  });
+
+  // ---- Payload builders ----
+  function buildPayload(form) {
+    var type = form.getAttribute("data-form-type");
+    var fd = {};
+    form.querySelectorAll("[name]").forEach(function (el) {
+      fd[el.getAttribute("name")] = el.value;
+    });
+
+    if (type === "vender") {
+      return {
+        tipo_formulario: "Vender/Arrendar",
+        nombre: fd.nombre.trim(),
+        email: fd.email.trim(),
+        telefono: fd.telefono.trim(),
+        operacion: fd.operacion,
+        tipo_inmueble: fd.tipo_inmueble,
+        direccion: fd.direccion.trim(),
+        municipio: fd.municipio,
+        precio: parseFloat(fd.precio) || 0,
+        area_m2: fd.area_m2 ? parseFloat(fd.area_m2) : null,
+        habitaciones: fd.habitaciones || null,
+        banos: fd.banos || null,
+        parqueadero: form.querySelector('[name="parqueadero"]').checked,
+        comentarios: (fd.comentarios || "").trim()
+      };
+    }
+
+    if (type === "comprar") {
+      var caracteristicas = [];
+      form.querySelectorAll('[data-checkbox-group="caracteristicas"] input[type="checkbox"]:checked').forEach(function (cb) {
+        caracteristicas.push(cb.value);
+      });
+      return {
+        tipo_formulario: "Comprar/Arrendar",
+        nombre: fd.nombre.trim(),
+        email: fd.email.trim(),
+        telefono: fd.telefono.trim(),
+        operacion: fd.operacion,
+        tipo_inmueble: fd.tipo_inmueble,
+        presupuesto: parseFloat(fd.presupuesto) || 0,
+        municipio_interes: fd.municipio_interes,
+        habitaciones_min: fd.habitaciones_min || null,
+        caracteristicas: caracteristicas,
+        comentarios: (fd.comentarios || "").trim()
+      };
+    }
+
+    // contacto
+    return {
+      tipo_formulario: "Contacto",
+      nombre: fd.nombre.trim(),
+      email: fd.email.trim(),
+      telefono: (fd.telefono || "").trim(),
+      asunto: fd.asunto,
+      mensaje: fd.mensaje.trim()
+    };
+  }
+
+  // ---- Submit handling ----
+  document.querySelectorAll("form[data-form-type]").forEach(function (form) {
+    var modalContent = form.closest(".modal-content");
+    var formBody = modalContent.querySelector(".form-body");
+    var successPanel = modalContent.querySelector("[data-success-panel]");
+    var submitErrorEl = modalContent.querySelector("[data-submit-error]");
+    var btnLabel = form.querySelector("[data-btn-label]");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      submitErrorEl.classList.remove("is-visible");
+
+      if (!validateForm(form)) {
+        var firstInvalid = form.querySelector(".invalid");
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      var payload = buildPayload(form);
+      form.classList.add("is-submitting");
+      btnLabel.textContent = "Enviando...";
+
+      fetch(SUBMIT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("Submit failed");
+          onSubmitSuccess(payload.nombre);
+        })
+        .catch(function () {
+          form.classList.remove("is-submitting");
+          btnLabel.textContent = "Enviar";
+          submitErrorEl.classList.add("is-visible");
+        });
+    });
+
+    function onSubmitSuccess(nombre) {
+      form.classList.remove("is-submitting");
+      btnLabel.textContent = "Enviar";
+      var firstName = (nombre || "").split(" ")[0] || "";
+      var msgEl = successPanel.querySelector("[data-success-message]");
+      msgEl.textContent = "Gracias" + (firstName ? ", " + firstName : "") + ". El equipo de InterRenta te contactará en las próximas horas.";
+      formBody.classList.add("is-hidden");
+      successPanel.classList.add("is-visible");
+    }
+  });
+
+  // Reset form + view state whenever a modal is closed
+  document.querySelectorAll(".modal-overlay").forEach(function (overlay) {
+    var form = overlay.querySelector("form");
+    var formBody = overlay.querySelector(".form-body");
+    var successPanel = overlay.querySelector("[data-success-panel]");
+
+    var observer = new MutationObserver(function () {
+      if (!overlay.classList.contains("is-open") && successPanel.classList.contains("is-visible")) {
+        setTimeout(function () {
+          if (form) form.reset();
+          overlay.querySelectorAll(".invalid").forEach(function (el) { el.classList.remove("invalid"); });
+          overlay.querySelectorAll(".field-error.is-visible").forEach(function (el) { el.classList.remove("is-visible"); });
+          overlay.querySelectorAll("[data-counter-current]").forEach(function (el) { el.textContent = "0"; });
+          overlay.querySelectorAll(".toggle-group").forEach(function (group) {
+            var options = group.querySelectorAll(".toggle-option");
+            options.forEach(function (o, i) { o.classList.toggle("is-active", i === 0); });
+            var hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+            if (hiddenInput && options[0]) hiddenInput.value = options[0].getAttribute("data-value");
+          });
+          formBody.classList.remove("is-hidden");
+          successPanel.classList.remove("is-visible");
+        }, 250);
+      }
+    });
+    observer.observe(overlay, { attributes: true, attributeFilter: ["class"] });
+  });
+
+})();
+</script>
+
+</body>
+</html>
