@@ -267,6 +267,7 @@
     font-family: var(--font-display);
     font-weight: 500;
     font-size: 28px;
+    color: var(--color-text);
     margin-bottom: 8px;
   }
   .card-secondary h2 { font-size: 22px; }
@@ -717,7 +718,7 @@
         <span class="card-icon-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </span>
-        <h2>Refiere y gana</h2>
+        <h2>Trabajemos juntos</h2>
         <p>¿Conoces a alguien que quiera comprar, vender o arrendar? Cuéntanos.</p>
         <span class="card-cta">Referir a alguien →</span>
       </button>
@@ -1038,7 +1039,7 @@
     <button type="button" class="modal-close" data-close-modal aria-label="Cerrar">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l12 12M14 2 2 14"/></svg>
     </button>
-    <h3 id="modal-referidos-title">Refiere y gana</h3>
+    <h3 id="modal-referidos-title">Trabajemos juntos</h3>
     <p class="modal-subtitle">Cuéntanos quién puede necesitar nuestros servicios.</p>
 
     <div class="form-body">
@@ -1058,13 +1059,13 @@
           </div>
           <div class="form-group">
             <label for="r-unidad">Unidad o ubicación <span class="required-mark">*</span></label>
-            <input class="form-input" type="text" id="r-unidad" name="referente_unidad" placeholder="Torre 3 Apto 502" required />
+            <input class="form-input" type="text" id="r-unidad" name="referente_unidad" placeholder="Ej: Conjunto Villa Alegre, Torre 3 Apto 502" required />
             <span class="field-error" data-error-for="referente_unidad">Ingresa tu unidad o ubicación.</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label>¿Eres cliente o propietario? <span class="required-mark">*</span></label>
+          <label>Tú eres: <span class="required-mark">*</span></label>
           <div class="toggle-group" data-toggle-group data-toggle-name="referente_tipo">
             <button type="button" class="toggle-option is-active" data-value="Cliente">Cliente</button>
             <button type="button" class="toggle-option" data-value="Propietario">Propietario</button>
